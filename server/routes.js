@@ -79,7 +79,7 @@ module.exports = function(app, passport) {
   //app.post('/login', do passport stuff)
   
   app.get('/signup', (req, res) => {
-    console.log('rendering signup');
+    console.log('rendering signup')
     res.render('signup.ejs', { message: req.flash('signupMessage') })
   });
 
@@ -90,9 +90,10 @@ module.exports = function(app, passport) {
   }));
   
   app.get('/profile', isLoggedIn, (req, res) => {
-    res.render('profile.ejs', {
-      user: req.user
-    });
+    console.log('PROFILE!!!')
+    // res.render('profile.ejs', {
+    //   user: req.user
+    // });
   });
 
   app.get('/logout', (req, res) => {

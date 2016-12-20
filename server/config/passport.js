@@ -2,25 +2,13 @@ var LocalStrategy = require('passport-local').Strategy;
 var User = require('../user/userModel.js');
 var bcrypt = require('bcrypt-node');
 // console.log('USER: ', User.getUserById)
-
-
-module.exports = function(passport) {
-  passport.serializeUser((user, done) => {
-    done(null,user.id);
-  });
-  passport.deserializeUser((id, done) => {
-    User.getUserById(id).then((data) => {
-      console.log('DATA: ', data);
-    });
-  });
-
-  passport.use('local-signup', new LocalStrategy({
+var localSignup = new LocalStrategy({
     usernameField: 'username',
     passwordField: 'password',
     emailField: 'email',
     passReqToCallback: true
   },
-  function(req, username, password, email, done) {
+  function(req, username, password, done) {
     console.log('local-signup config: ', req)
     User.getUserByName(username).then((user) => { 
       if(user) {
@@ -37,9 +25,9 @@ module.exports = function(passport) {
         });
       }
     })
-  }));
+  });
 
-  passport.use('local-login', new LocalStrategy({
+var localLogin = new LocalStrategy({
     usernameField: 'username',
     passwordField: 'password',
     passReqToCallback: true
@@ -56,5 +44,21 @@ module.exports = function(passport) {
 
       return done(null, user[0]);
     })
-  }))
+  });
+
+module.exports = function(passport) {
+  passport.serializeUser((user, done) => {
+    console.log('serializeUser: ', user)
+    done(null,user[0]);
+  });
+  passport.deserializeUser((id, done) => {
+    User.getUserById(id).then((err,data) => {
+      console.log('deserializeDATA: ', data);
+      done(err,data);
+    });
+  });
+
+  passport.use('local-signup',localSignup);
+
+  passport.use(localLogin)
 }
