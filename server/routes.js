@@ -65,7 +65,7 @@ router.post('/api/search', (req,res) => {
 //   console.log('Deleting Playlist Route');
 // });/*controller.playlist.delete*/
 
- module.exports = router;
+// module.exports = router;
 
 module.exports = function(app, passport) {
   app.get('/', (req, res) => {
@@ -79,10 +79,15 @@ module.exports = function(app, passport) {
   //app.post('/login', do passport stuff)
   
   app.get('/signup', (req, res) => {
+    console.log('rendering signup');
     res.render('signup.ejs', { message: req.flash('signupMessage') })
   });
 
-  //app.post('/signup', do all passport stuff)
+  app.post('/signup', passport.authenticate('local-signup', {
+    successRedirect: '/profile',
+    failureRedirect: '/signup',
+    failureFlash: true
+  }));
   
   app.get('/profile', isLoggedIn, (req, res) => {
     res.render('profile.ejs', {

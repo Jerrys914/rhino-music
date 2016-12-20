@@ -21,21 +21,19 @@ module.exports = function(passport) {
     passReqToCallback: true
   },
   function(req, username, password, email, done) {
-    User.getUserByName(username).then((err,user) => {
-      if(err) {
-        console.log(err)
-      } 
-      if(user.length) {
-        return done(null, false, rewq.flash('signupMessage', 'That Username is already taken.'));
+    console.log('local-signup config: ', req)
+    User.getUserByName(username).then((user) => { 
+      if(user) {
+        return done(null, false, req.flash('signupMessage', 'That Username is already taken.'));
       } else {
         var newUser = {
           username: username,
           password: bcrypt.hashSync(password, null, null),
-          email: email
+          email: 'test@test.com'
         };
         User.storeUser(newUser.username, newUser.password, newUser.email).then((data) => {
           console.log('DATA: ',data);
-          return done(null, data)
+          return done(null,data);
         });
       }
     })
