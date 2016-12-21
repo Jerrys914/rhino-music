@@ -68,7 +68,7 @@ router.post('/api/search', (req,res) => {
 // module.exports = router;
 
 module.exports = function(app, passport) {
-  app.get('/', (req, res) => {
+  app.get('/', isLoggedIn,(req, res) => {
     res.render('index.ejs')
   });
 
@@ -76,7 +76,19 @@ module.exports = function(app, passport) {
     res.render('login.ejs', { message: req.flash('loginMessage') });
   });
 
-  //app.post('/login', do passport stuff)
+  app.post('/login', passport.authenticate('local-login', {
+    successRedirect: '/profile',
+    failureRedirect: '/login',
+    failureFlash: true
+  }),
+  function(req,res) {
+    console.log('Post Login Req: ', req)
+    if(req.body.remember) {
+      req.session.cookie.maxAge = 1000 * 60 * 5;
+    } else {
+      req.session.cookie.expires = false;
+    }
+  });
   
   app.get('/signup', (req, res) => {
     console.log('rendering signup')
@@ -91,9 +103,7 @@ module.exports = function(app, passport) {
   
   app.get('/profile', isLoggedIn, (req, res) => {
     console.log('PROFILE!!!')
-    // res.render('profile.ejs', {
-    //   user: req.user
-    // });
+    res.render('profile.ejs');
   });
 
   app.get('/logout', (req, res) => {
@@ -106,5 +116,5 @@ function isLoggedIn(req, res, next) {
   if(req.isAuthenticated()) {
     return next();
   }
-  res.redirect('/');
+  res.redirect('/login');
 }

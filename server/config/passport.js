@@ -33,15 +33,16 @@ var localLogin = new LocalStrategy({
     passReqToCallback: true
   },
   function(req, username, password, done) {
-    User.getUserByName(username).then((err, user) => {
-      if(err){ console.log(err) }
-      if(!user.length){
+    User.getUserByName(username).then((user) => {
+      console.log('LOCAL LOGIN USER: ', user)
+      if(!user){
         return done(null, false, req.flash('loginMessage', 'No user found.'));
-      }
-      if(!bcrypt.compareSync(password, user[0].password)) {
+      }     
+      if(!bcrypt.compareSync(password, user.password)) {
         return done(null, false, req.flash('loginMessage', 'Wrong password!'));
       }
-
+      console.log('passwordsMatch: ', bcrypt.compareSync(password, user.password))
+      console.log('FOUND USER LOCAL-LOGIN')
       return done(null, user[0]);
     })
   });
@@ -60,5 +61,5 @@ module.exports = function(passport) {
 
   passport.use('local-signup',localSignup);
 
-  passport.use(localLogin)
+  passport.use('local-login',localLogin)
 }
