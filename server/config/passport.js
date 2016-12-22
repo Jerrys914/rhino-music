@@ -1,7 +1,8 @@
 var LocalStrategy = require('passport-local').Strategy;
+var SpotifyStrategy = require('passport-spotify').Strategy;
 var User = require('../user/userModel.js');
 var bcrypt = require('bcrypt-node');
-// console.log('USER: ', User.getUserById)
+var configAuth = require('./auth.js')
 var localSignup = new LocalStrategy({
     usernameField: 'username',
     passwordField: 'password',
@@ -46,6 +47,15 @@ var localLogin = new LocalStrategy({
       return done(null, user);
     })
   });
+
+var spotifyLogin = new SpotifyStrategy({
+  clientId: configAuth.spotifyAuth.clientId,
+  clientSecret: configAuth.spotifyAuth.clientSecret,
+  callbackURL: configAuth.spotifyAuth.callbackURL
+},
+function(token,refreshToken, profile, done) {
+
+})
 
 module.exports = function(passport) {
   passport.serializeUser((user, done) => {
