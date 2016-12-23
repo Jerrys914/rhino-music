@@ -2,7 +2,8 @@ var LocalStrategy = require('passport-local').Strategy;
 var SpotifyStrategy = require('passport-spotify').Strategy;
 var User = require('../user/userModel.js');
 var bcrypt = require('bcrypt-node');
-var configAuth = require('./auth.js')
+var configAuth = require('./auth.js');
+
 var localSignup = new LocalStrategy({
     usernameField: 'username',
     passwordField: 'password',
@@ -49,7 +50,7 @@ var localLogin = new LocalStrategy({
   });
 
 var spotifyLogin = new SpotifyStrategy({
-  clientId: configAuth.spotifyAuth.clientId,
+  clientID: configAuth.spotifyAuth.clientId,
   clientSecret: configAuth.spotifyAuth.clientSecret,
   callbackURL: configAuth.spotifyAuth.callbackURL
 },
@@ -76,6 +77,6 @@ module.exports = function(passport) {
   });
 
   passport.use('local-signup',localSignup);
-
-  passport.use('local-login',localLogin)
+  passport.use('local-login',localLogin);
+  passport.use('spotify-login',spotifyLogin);
 }

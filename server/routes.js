@@ -86,8 +86,16 @@ app.post('/api/search', (req,res) => {
     successRedirect: '/search',
     failureRedirect: '/login',
     failureFlash: true
+  }));
+
+  app.get('/auth/spotify', passport.authenticate('spotify-login', {
+    successRedirect: '/search',
+    failureRedirect: '/login'
+  }));
+
+  app.get('/auth/spotify/callback', (req,res) => {
+    console.log('CALLBACK REDIRECT')
   })
-  );
   
   app.get('/signup', (req, res) => {
     console.log('rendering signup')
