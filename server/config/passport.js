@@ -52,10 +52,14 @@ var localLogin = new LocalStrategy({
 var spotifyLogin = new SpotifyStrategy({
   clientID: configAuth.spotifyAuth.clientId,
   clientSecret: configAuth.spotifyAuth.clientSecret,
+  scope: configAuth.spotifyAuth.scope,
   callbackURL: configAuth.spotifyAuth.callbackURL
 },
-function(token,refreshToken, profile, done) {
-
+function(token, refreshToken, profile, done) {
+  console.log('SPOTIFY_TOKEN: ', token)
+  console.log('SPOTIFY_REFRESH_TOKEN: ', refreshToken)
+  console.log('SPOTIFY_PROFILE: ', profile)
+  done(null, profile);
 })
 
 module.exports = function(passport) {

@@ -46,6 +46,7 @@ knex.schema.hasTable('Playlist').then(exist => {
   if (!exist) {
     knex.schema.createTable('Playlist', (table) => {
       table.increments('id').primary();
+      table.string('name');
       table.integer('SongsId').unsigned();
       table.integer('UserId').unsigned();
       table.foreign('SongsId').references('Songs.id'); //or references('id').inTable(Songs);

@@ -93,9 +93,9 @@ app.post('/api/search', (req,res) => {
     failureRedirect: '/login'
   }));
 
-  app.get('/auth/spotify/callback', (req,res) => {
-    console.log('CALLBACK REDIRECT')
-  })
+  app.get('/auth/spotify/callback',(req,res) => {
+    console.log('req: ', req)
+  });
   
   app.get('/signup', (req, res) => {
     console.log('rendering signup')
