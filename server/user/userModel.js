@@ -1,12 +1,13 @@
 
 const knex = require('../database/schema.knex.js');
 
-let storeUser = (username, password, email, genres = 'Hip-Hop') => {
+let storeUser = (username, password, email, genres = 'Hip-Hop', spotify = null) => {
   return knex('Users').insert({ 
     username: username, 
     password: password,
     email: email,
-    genres: genres
+    genres: genres,
+    spotify: spotify
   });
 };
 

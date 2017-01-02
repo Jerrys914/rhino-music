@@ -27,25 +27,31 @@ app.get('/search', isLoggedIn, (req,res) => {
 app.post('/api/search', (req,res) => {
   console.log("INPUT:", req.body)
   let input = JSON.stringify(req.body);
-  console.log("Input:", input)
-   request({
-      url: 'https://api.spotify.com/v1/search',
+  let user;
+  function sendRequest() {
+    console.log('REQUEST!!!!!!!!!!!!!!!', passport.spotifyUser)
+    request({
+      Authorization: 'Bearer ' + passport.spotifyUser.spotify.token,
+      url: 'https://api.spotify.com/v1/me',
       qs: {
         q: input,
         type: 'track',
         limit: 6
       }
     },
-      function(error, response, body) {
-        if (!error && response.statusCode === 200) {
-      console.log(body)
+    (error, response, body) => {
+      if (!error && response.statusCode === 200) {
+        console.log(body)
           
-          res.send(body);
-        } else {
-          res.json(error);
-        }
-      });
-});
+        res.send(body);
+      } else {
+        res.json(error);
+      }
+    });
+  };
+  console.log("Input:", input)
+  sendRequest();
+  });
 // router.post('/api/search', (req,res) => {
 //   console.log("Search Term", req.body)
 // });
@@ -93,9 +99,10 @@ app.post('/api/search', (req,res) => {
     failureRedirect: '/login'
   }));
 
-  app.get('/auth/spotify/callback',(req,res) => {
-    console.log('req: ', req)
-  });
+  app.get('/auth/spotify/callback',passport.authenticate('spotify-login', {
+    successRedirect: '/profile',
+    failureRedirect: '/login'
+  }));
   
   app.get('/signup', (req, res) => {
     console.log('rendering signup')
