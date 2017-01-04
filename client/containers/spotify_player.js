@@ -23,7 +23,9 @@ class MusicPlayer extends Component {
   		  allowTransparency="true">
   	  </iframe>
   	</div>
-    );
+    console.log("MUSIC PLAYER",this.props.playSong)
+    // this.playSong = this.playSong.bind(this)
+    )
   }
 }
 
