@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { playSong } from '../actions/songs';
 import { bindActionCreators } from 'redux'; //=> Take a look
+import getPlaylists from '../actions/playlists';
+
 // import MusicPlayer from './spotify_player';
 
 class SearchList extends Component {
@@ -47,6 +49,7 @@ class SearchList extends Component {
         <td>{track.artists[0].name}</td>
         <td>{track.album.name}</td>
         <td><button>Play</button></td>
+        <td>{}</td>
         <td><button>Favourites</button></td>
       </tr>
         )
@@ -64,6 +67,7 @@ class SearchList extends Component {
           <th> Artist </th>
           <th> Album </th>
           <th> Play </th>
+          <th> Pick Playlist </th>
           <th> Favourites</th>
         </tr>
       </thead>
@@ -75,6 +79,8 @@ class SearchList extends Component {
     );
   }
 }
+
+function getPlaylistDropdown()
 
 function mapStateToProps(state) {
   return {tracks: state.tracks};  //same as tracks: state.tracks
