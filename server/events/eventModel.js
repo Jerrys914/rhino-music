@@ -15,11 +15,11 @@ let saveEvent = (event) => {
   }); 
 };
 
-let addEventToEventsUsers = (EventsId, UserId) => {
-	console.log("EVENTS ID", EventsId, "AND THE USER ID", UserId)
+let addEventToEventsUsers = (EventId, UsersId) => {
+	console.log("EVENTS ID", EventId, "AND THE USER ID", UsersId)
   return knex('EventsUsers').insert({
-    EventsId: EventsId,
-    UserId: UserId
+    EventsId: EventId,
+    UserId: UsersId
   }); 
 };
 
@@ -31,9 +31,9 @@ return knex('EventsUsers').where({
   });
 };
 
-let getEventsUsersByEventsId = (EventsId) => {
+let getEventsUsersByEventsId = (EventId) => {
   return knex('EventsUsers').where({
-    EventsId: EventsId
+    EventsId: EventId
   });
 };
 

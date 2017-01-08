@@ -229,8 +229,10 @@ console.log("EVENTS HERE INFO", req.body)
   .then((id) => {
     console.log("ID ID", id[0])
     Events.addEventToEventsUsers(id[0], passport.user.id)
-  }).then((wut) => {
-    console.log("EVENTS USERS ADDED", wut)
+    .then((wut) => {
+      console.log("EVENTS USERS ADDED", wut)
+      res.send(wut)
+    })
   })
   // Events.getAllEvents().then((events) => {
   // let match = false;
