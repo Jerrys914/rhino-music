@@ -42,7 +42,7 @@ export default class About extends Component {
     <ListItem>
 
         <img src="https://s23.postimg.org/t3jfkn763/DSC_0162.jpg" />
-      
+        <IconButton iconClassName="muidocs-icon-custom-github" />
     
     </ListItem>
     </List>
